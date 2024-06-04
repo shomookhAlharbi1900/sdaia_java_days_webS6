@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import org.example.dto.jobsFilterDto;
 import org.example.models.jobs;
 
 import java.sql.*;
@@ -63,22 +64,22 @@ public class jobsDAO {
         }
     }
 
-    public ArrayList<jobs> SELECT_ALL_jobs(Double min_salary, Integer limit, int offset) throws SQLException, ClassNotFoundException {
+    public ArrayList<jobs> SELECT_ALL_jobs(jobsFilterDto filter) throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager.getConnection(URL);
         PreparedStatement st;
-        if (min_salary != null && limit != null) {
+        if (filter.getMin_salary() != null && filter.getLimit() != null) {
             st = conn.prepareStatement(SELECT_jobs_WITH_MIN_PAGINATION);
-            st.setDouble(1, min_salary);
-            st.setInt(2, limit);
-            st.setInt(3, offset);
-        } else if (min_salary != null) {
+            st.setDouble(1, filter.getMin_salary());
+            st.setInt(2, filter.getLimit());
+            st.setInt(3, filter.getOffset());
+        } else if (filter.getMin_salary() != null) {
             st = conn.prepareStatement(SELECT_jobs_WITH_MIN);
-            st.setDouble(1, min_salary);
-        } else if (limit != null) {
+            st.setDouble(1, filter.getMin_salary());
+        } else if (filter.getLimit() != null) {
             st = conn.prepareStatement(SELECT_jobs_WITH_PAGINATION);
-            st.setInt(1, limit);
-            st.setInt(2, offset);
+            st.setInt(1, filter.getLimit());
+            st.setInt(2, filter.getOffset());
         } else {
             st = conn.prepareStatement(SELECT_ALL_jobs);
         }
@@ -90,5 +91,56 @@ public class jobsDAO {
 
         return job;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    public ArrayList<jobs> SELECT_ALL_jobs(Double min_salary, Integer limit, int offset) throws SQLException, ClassNotFoundException {
+//        Class.forName("org.sqlite.JDBC");
+//        Connection conn = DriverManager.getConnection(URL);     هذي لو كانت كل براميتر لحاله
+//        PreparedStatement st;
+//        if (min_salary != null && limit != null) {
+//            st = conn.prepareStatement(SELECT_jobs_WITH_MIN_PAGINATION);
+//            st.setDouble(1, min_salary);
+//            st.setInt(2, limit);
+//            st.setInt(3, offset);
+//        } else if (min_salary != null) {
+//            st = conn.prepareStatement(SELECT_jobs_WITH_MIN);
+//            st.setDouble(1, min_salary);
+//        } else if (limit != null) {
+//            st = conn.prepareStatement(SELECT_jobs_WITH_PAGINATION);
+//            st.setInt(1, limit);
+//            st.setInt(2, offset);
+//        } else {
+//            st = conn.prepareStatement(SELECT_ALL_jobs);
+//        }
+//        ResultSet rs = st.executeQuery();
+//        ArrayList<jobs> job = new ArrayList<>();
+//        while (rs.next()) {
+//            job.add(new jobs(rs));
+//        }
+//
+//        return job;
+//    }
+
+
 
 }

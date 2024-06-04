@@ -3,6 +3,7 @@ package org.example.Controller;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.example.dao.jobsDAO;
+import org.example.dto.jobsFilterDto;
 import org.example.models.jobs;
 
 import java.sql.*;
@@ -15,13 +16,15 @@ public class jobsController {
      @GET
      @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
      public ArrayList<jobs> SELECT_ALL_jobs(
-             @QueryParam("min_salary") Double min_salary ,
-             @QueryParam("limit")  Integer limit ,
-             @QueryParam("offset") int offset
+//             @QueryParam("min_salary") Double min_salary ,
+//             @QueryParam("limit")  Integer limit ,
+//             @QueryParam("offset") int offset  كل اللي في الكومنت لو عاملت كل براميتر لحاله
+             @BeanParam jobsFilterDto filter
      ) {
-          System.out.println(min_salary);
+//          System.out.println(min_salary); هذي عشان اتأكد اذا اخذ المين او لا
           try {
-               return jo.SELECT_ALL_jobs(min_salary,limit,offset);
+//               return jo.SELECT_ALL_jobs(min_salary,limit,offset);
+               return jo.SELECT_ALL_jobs(filter);
           } catch (Exception e) {
                throw new RuntimeException(e);
           }
